@@ -1,0 +1,274 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>La Méditerranée antique</title>
+<style>
+  /* Layout: a papyrus-toned header, then a running "cours" essay in a
+     narrow readable column, followed by a glossary grid grouped by
+     theme (Grecs / Romains / échanges), closed by a short timeline. */
+  :root {
+    --bg: #f3ead9;
+    --bg-raised: #fbf5e9;
+    --fg: #2c231a;
+    --fg-dim: #74644f;
+    --border: #d9c9a8;
+    --accent: #9c4a2d;
+    --accent-2: #3d5a52;
+    --code-bg: #ece0c6;
+    --font-display: "Cormorant Garamond", Georgia, serif;
+    --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+    --font-label: "Cinzel", var(--font-display);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #221c15;
+      --bg-raised: #2b241b;
+      --fg: #ece2cd;
+      --fg-dim: #b2a287;
+      --border: #44392a;
+      --accent: #d97b52;
+      --accent-2: #7fae9e;
+      --code-bg: #332b1f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #221c15;
+    --bg-raised: #2b241b;
+    --fg: #ece2cd;
+    --fg-dim: #b2a287;
+    --border: #44392a;
+    --accent: #d97b52;
+    --accent-2: #7fae9e;
+    --code-bg: #332b1f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-bottom: 64px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  .prose { max-width: 66ch; }
+
+  header.hero { padding-block: 44px 28px; border-bottom: 2px solid var(--border); }
+  .eyebrow {
+    font-family: var(--font-label);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.2rem, 7vw, 3.2rem);
+    margin: 0.25em 0 0.3em;
+    text-wrap: balance;
+  }
+  .hero p { color: var(--fg-dim); font-size: 1.05rem; }
+
+  h2.section-title {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .section-sub {
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  section.cours { padding-block: 40px; border-bottom: 2px solid var(--border); }
+  section.cours h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    margin: 1.4em 0 0.4em;
+    color: var(--accent);
+  }
+  section.cours p { margin: 0 0 1em; font-size: 1rem; }
+  section.cours strong { color: var(--accent-2); }
+
+  .callout {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 1.2em 0;
+    font-size: 0.95rem;
+  }
+  .callout .label {
+    font-family: var(--font-label);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  section.glossary { padding-block: 40px; border-bottom: 2px solid var(--border); }
+  section.glossary:last-of-type { border-bottom: none; }
+  .terms {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .term {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    min-width: 0;
+  }
+  .term dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.08rem;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+  .term dt .fr { font-family: var(--font-body); font-size: 0.72rem; color: var(--fg-dim); font-weight: 400; display: block; }
+  .term dd { margin: 0; font-size: 0.92rem; }
+
+  section.frise { padding-block: 40px; }
+  .frise-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 2px solid var(--border);
+  }
+  .frise-list li {
+    position: relative;
+    padding: 0 0 22px 24px;
+  }
+  .frise-list li::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .frise-date {
+    font-family: var(--font-label);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--accent-2);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .frise-list p { margin: 0; font-size: 0.93rem; }
+
+  footer { padding-top: 28px; color: var(--fg-dim); font-size: 0.85rem; }
+
+  @media (max-width: 480px) {
+    .terms { grid-template-columns: 1fr; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Cinzel:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap">
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Fiche de révision · Histoire</div>
+    <h1>La Méditerranée dans l'Antiquité</h1>
+    <p>Un cours résumé sur les mondes grec et romain, suivi d'un glossaire des mots-clés à connaître.</p>
+  </header>
+
+  <section class="cours">
+    <span class="section-sub">Le cours</span>
+    <h2 class="section-title">Une mer au centre des civilisations</h2>
+    <div class="prose">
+      <p>Dans l'Antiquité, la mer Méditerranée n'est pas une frontière mais un <strong>espace de circulation</strong>. Les peuples qui vivent sur ses rives — Grecs, Phéniciens, Égyptiens, Romains — s'en servent pour commercer, voyager et fonder de nouvelles villes. C'est pour cela qu'on parle d'un « monde méditerranéen » plutôt que de civilisations isolées.</p>
+
+      <h3>Le monde grec</h3>
+      <p>Vers le VIIIᵉ siècle avant J.-C., la Grèce antique n'est pas un pays unifié mais un ensemble de <strong>cités-États</strong> (les <em>poleis</em>), comme Athènes ou Sparte, chacune avec ses propres lois et son armée. Faute de terres cultivables suffisantes, les Grecs fondent des <strong>colonies</strong> tout autour de la Méditerranée et jusqu'en mer Noire, diffusant leur langue, leurs dieux et leur art.</p>
+      <p>Athènes se distingue au Vᵉ siècle en inventant la <strong>démocratie</strong> : les citoyens votent eux-mêmes les lois, bien que ce droit soit réservé aux hommes libres, et exclut femmes, esclaves et étrangers. Les Grecs partagent aussi une culture commune : les mêmes dieux (Zeus, Athéna, Poséidon...), les mêmes grands sanctuaires (Delphes, Olympie) et les Jeux olympiques, qui rassemblent toutes les cités tous les quatre ans.</p>
+
+      <div class="callout">
+        <span class="label">À retenir</span>
+        Les cités grecques sont rivales mais partagent une même langue, une même religion et une même culture : c'est ce qui fait leur unité malgré leur division politique.
+      </div>
+
+      <h3>Le monde romain</h3>
+      <p>Rome naît comme une simple cité d'Italie, mais conquiert peu à peu toute la Méditerranée. Elle passe par trois régimes politiques : la <strong>royauté</strong> (jusqu'au VIᵉ siècle av. J.-C.), la <strong>République</strong> (gouvernée par des magistrats élus et le Sénat), puis l'<strong>Empire</strong> à partir d'Auguste, en 27 av. J.-C., où tout le pouvoir appartient à un seul homme, l'empereur.</p>
+      <p>À son apogée, l'Empire romain contrôle presque toutes les terres bordant la Méditerranée, que les Romains surnomment <em>Mare Nostrum</em> (« notre mer »). Partout où ils s'installent, ils construisent des routes, des aqueducs, des théâtres et des forums : c'est la <strong>romanisation</strong>, qui diffuse la langue latine, le droit romain et le mode de vie romain dans les provinces conquises.</p>
+
+      <h3>Une mer d'échanges</h3>
+      <p>Par bateau, les marchandises circulent d'un bout à l'autre de la Méditerranée : blé d'Égypte, huile d'olive de Grèce, vin d'Italie, métaux d'Espagne. Les ports (Alexandrie, Carthage, Ostie) deviennent de grandes villes cosmopolites. Les idées voyagent aussi : la mythologie, la philosophie, les techniques de construction et, plus tard, les religions, comme le christianisme, se diffusent sur les mêmes routes maritimes que les marchandises.</p>
+    </div>
+  </section>
+
+  <section class="glossary">
+    <span class="section-sub">Glossaire</span>
+    <h2 class="section-title">Le monde grec</h2>
+    <dl class="terms">
+      <div class="term"><dt>Polis <span class="fr">cité-État</span></dt><dd>Ville grecque indépendante avec son propre territoire, ses lois et son armée (ex. Athènes, Sparte).</dd></div>
+      <div class="term"><dt>Colonisation grecque</dt><dd>Fondation de nouvelles cités grecques tout autour de la Méditerranée à partir du VIIIᵉ siècle av. J.-C.</dd></div>
+      <div class="term"><dt>Démocratie</dt><dd>Régime politique où les citoyens votent les lois ; inventée à Athènes au Vᵉ siècle av. J.-C.</dd></div>
+      <div class="term"><dt>Citoyen</dt><dd>À Athènes, homme libre né de parents athéniens, seul à avoir le droit de vote.</dd></div>
+      <div class="term"><dt>Agora</dt><dd>Place publique d'une cité grecque, centre de la vie politique et commerciale.</dd></div>
+      <div class="term"><dt>Acropole</dt><dd>Colline fortifiée dominant une cité grecque, où se trouvent les temples principaux.</dd></div>
+      <div class="term"><dt>Mythologie</dt><dd>Ensemble des récits sur les dieux et héros grecs, partagés par toutes les cités.</dd></div>
+      <div class="term"><dt>Jeux olympiques</dt><dd>Compétitions sportives organisées tous les quatre ans à Olympie en l'honneur de Zeus.</dd></div>
+    </dl>
+  </section>
+
+  <section class="glossary">
+    <h2 class="section-title">Le monde romain</h2>
+    <dl class="terms">
+      <div class="term"><dt>République</dt><dd>Régime politique romain où le pouvoir est partagé entre magistrats élus et le Sénat.</dd></div>
+      <div class="term"><dt>Empire</dt><dd>Régime politique romain où tout le pouvoir appartient à un seul homme, l'empereur, à partir de 27 av. J.-C.</dd></div>
+      <div class="term"><dt>Sénat</dt><dd>Assemblée des anciens magistrats romains, qui conseille et contrôle le gouvernement de Rome.</dd></div>
+      <div class="term"><dt>Légion</dt><dd>Unité de base de l'armée romaine, composée de plusieurs milliers de soldats.</dd></div>
+      <div class="term"><dt>Forum</dt><dd>Place publique d'une ville romaine, centre de la vie politique, religieuse et commerciale.</dd></div>
+      <div class="term"><dt>Romanisation</dt><dd>Diffusion du mode de vie, de la langue et du droit romains dans les territoires conquis.</dd></div>
+      <div class="term"><dt>Province</dt><dd>Territoire conquis et administré par Rome en dehors de l'Italie.</dd></div>
+      <div class="term"><dt>Mare Nostrum</dt><dd>« Notre mer » en latin : surnom donné par les Romains à la Méditerranée lorsqu'ils la contrôlent entièrement.</dd></div>
+    </dl>
+  </section>
+
+  <section class="glossary">
+    <h2 class="section-title">Échanges et vocabulaire commun</h2>
+    <dl class="terms">
+      <div class="term"><dt>Panthéon</dt><dd>Ensemble des dieux d'une civilisation (les Romains reprennent en partie les dieux grecs sous d'autres noms).</dd></div>
+      <div class="term"><dt>Aqueduc</dt><dd>Ouvrage construit pour transporter l'eau sur de longues distances jusqu'aux villes.</dd></div>
+      <div class="term"><dt>Comptoir commercial</dt><dd>Installation construite par des marchands étrangers sur une côte, pour commercer avec les habitants locaux.</dd></div>
+      <div class="term"><dt>Christianisme</dt><dd>Religion née au Iᵉʳ siècle apr. J.-C. en Judée, qui se diffuse ensuite dans tout l'Empire romain.</dd></div>
+    </dl>
+  </section>
+
+  <section class="frise">
+    <span class="section-sub">Repères</span>
+    <h2 class="section-title">Quelques dates clés</h2>
+    <ul class="frise-list">
+      <li><span class="frise-date">VIIIᵉ siècle av. J.-C.</span><p>Début de la colonisation grecque en Méditerranée ; fondation traditionnelle de Rome (753 av. J.-C.).</p></li>
+      <li><span class="frise-date">Vᵉ siècle av. J.-C.</span><p>Âge d'or d'Athènes : démocratie, philosophie, théâtre, grands monuments de l'Acropole.</p></li>
+      <li><span class="frise-date">27 av. J.-C.</span><p>Auguste devient le premier empereur romain : début de l'Empire.</p></li>
+      <li><span class="frise-date">Iᵉʳ-IIᵉ siècle apr. J.-C.</span><p>Apogée territoriale de l'Empire romain, qui contrôle tout le pourtour méditerranéen.</p></li>
+      <li><span class="frise-date">IVᵉ siècle apr. J.-C.</span><p>Le christianisme devient religion autorisée puis officielle de l'Empire romain.</p></li>
+    </ul>
+  </section>
+
+  <footer>
+    Fiche de révision personnelle — à compléter avec les notes de cours.
+  </footer>
+</div>
+
+</body></html>
