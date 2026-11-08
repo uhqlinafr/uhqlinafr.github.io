@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <title>La Méditerranée antique</title>
 <style>
@@ -176,6 +175,77 @@
 
   footer { padding-top: 28px; color: var(--fg-dim); font-size: 0.85rem; }
 
+  section.quiz { padding-block: 40px; border-top: 2px solid var(--border); }
+  .quiz-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 66ch;
+  }
+  .quiz-progress {
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 10px;
+  }
+  .quiz-question {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+  .quiz-options { display: grid; gap: 10px; }
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 0.96rem;
+    color: var(--fg);
+    cursor: pointer;
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .quiz-option[data-state="correct"] { border-color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 16%, var(--bg)); }
+  .quiz-option[data-state="wrong"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--bg)); }
+  .quiz-option:disabled { cursor: default; opacity: 0.85; }
+  .quiz-feedback {
+    margin-top: 14px;
+    font-size: 0.92rem;
+    color: var(--fg-dim);
+    min-height: 1.4em;
+  }
+  .quiz-nav { margin-top: 18px; display: flex; justify-content: flex-end; }
+  .quiz-btn {
+    font-family: var(--font-label);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--bg-raised);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  .quiz-btn:disabled { opacity: 0.4; cursor: default; }
+  .quiz-result { text-align: center; }
+  .quiz-result .score {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 4px 0 8px;
+  }
+
   @media (max-width: 480px) {
     .terms { grid-template-columns: 1fr; }
   }
@@ -266,9 +336,178 @@
     </ul>
   </section>
 
+  <section class="quiz">
+    <span class="section-sub">À toi de jouer</span>
+    <h2 class="section-title">Quiz : as-tu retenu le cours ?</h2>
+    <div class="quiz-box" id="quizBox"></div>
+  </section>
+
   <footer>
     Fiche de révision personnelle — à compléter avec les notes de cours.
   </footer>
 </div>
 
-</body></html>
+<script>
+(function () {
+  var QUESTIONS = [
+    {
+      q: "Comment appelle-t-on une cité-État grecque indépendante ?",
+      options: ["Une polis", "Un forum", "Une province", "Un comptoir"],
+      correct: 0,
+      why: "La polis est la cité-État grecque, comme Athènes ou Sparte."
+    },
+    {
+      q: "Quel régime politique les Athéniens inventent-ils au Vᵉ siècle av. J.-C. ?",
+      options: ["La royauté", "La démocratie", "L'Empire", "La théocratie"],
+      correct: 1,
+      why: "Athènes invente la démocratie, où les citoyens votent les lois."
+    },
+    {
+      q: "Pourquoi les cités grecques fondent-elles des colonies autour de la Méditerranée ?",
+      options: [
+        "Pour fuir une invasion romaine",
+        "Par manque de terres cultivables",
+        "Sur ordre d'un empereur grec",
+        "Pour échapper à la démocratie"
+      ],
+      correct: 1,
+      why: "Faute de terres suffisantes chez elles, les cités grecques fondent des colonies tout autour de la Méditerranée."
+    },
+    {
+      q: "En quelle année Auguste devient-il le premier empereur romain ?",
+      options: ["753 av. J.-C.", "27 av. J.-C.", "476 apr. J.-C.", "1 apr. J.-C."],
+      correct: 1,
+      why: "Auguste devient le premier empereur romain en 27 av. J.-C., marquant le début de l'Empire."
+    },
+    {
+      q: "Que signifie « Mare Nostrum » ?",
+      options: ["La grande mer", "Notre mer", "Mer sacrée", "Mer interdite"],
+      correct: 1,
+      why: "Mare Nostrum, « notre mer » en latin, est le surnom donné par les Romains à la Méditerranée."
+    },
+    {
+      q: "Qu'est-ce que la romanisation ?",
+      options: [
+        "La conquête de Rome par d'autres peuples",
+        "La diffusion du mode de vie romain dans les provinces conquises",
+        "Le culte des dieux romains par les Grecs",
+        "La construction de la ville de Rome"
+      ],
+      correct: 1,
+      why: "La romanisation est la diffusion de la langue, du droit et du mode de vie romains dans les territoires conquis."
+    }
+  ];
+
+  var box = document.getElementById("quizBox");
+  var current = 0;
+  var score = 0;
+  var answered = false;
+
+  function render() {
+    if (current >= QUESTIONS.length) {
+      renderResult();
+      return;
+    }
+    var item = QUESTIONS[current];
+    answered = false;
+    box.innerHTML = "";
+
+    var progress = document.createElement("div");
+    progress.className = "quiz-progress";
+    progress.textContent = "Question " + (current + 1) + " / " + QUESTIONS.length;
+    box.appendChild(progress);
+
+    var qEl = document.createElement("div");
+    qEl.className = "quiz-question";
+    qEl.textContent = item.q;
+    box.appendChild(qEl);
+
+    var optsEl = document.createElement("div");
+    optsEl.className = "quiz-options";
+    item.options.forEach(function (opt, i) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-option";
+      btn.textContent = opt;
+      btn.addEventListener("click", function () { selectOption(i, optsEl); });
+      optsEl.appendChild(btn);
+    });
+    box.appendChild(optsEl);
+
+    var feedback = document.createElement("div");
+    feedback.className = "quiz-feedback";
+    feedback.id = "quizFeedback";
+    box.appendChild(feedback);
+
+    var nav = document.createElement("div");
+    nav.className = "quiz-nav";
+    var nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "quiz-btn";
+    nextBtn.id = "quizNext";
+    nextBtn.disabled = true;
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? "Voir le score" : "Question suivante";
+    nextBtn.addEventListener("click", function () {
+      current += 1;
+      render();
+    });
+    nav.appendChild(nextBtn);
+    box.appendChild(nav);
+  }
+
+  function selectOption(i, optsEl) {
+    if (answered) return;
+    answered = true;
+    var item = QUESTIONS[current];
+    var buttons = optsEl.querySelectorAll(".quiz-option");
+    buttons.forEach(function (b, idx) {
+      b.disabled = true;
+      if (idx === item.correct) b.setAttribute("data-state", "correct");
+      else if (idx === i) b.setAttribute("data-state", "wrong");
+    });
+    if (i === item.correct) score += 1;
+    var feedback = document.getElementById("quizFeedback");
+    feedback.textContent = (i === item.correct ? "Exact. " : "Pas tout à fait. ") + item.why;
+    document.getElementById("quizNext").disabled = false;
+  }
+
+  function renderResult() {
+    box.innerHTML = "";
+    var wrap = document.createElement("div");
+    wrap.className = "quiz-result";
+
+    var label = document.createElement("div");
+    label.className = "quiz-progress";
+    label.textContent = "Résultat";
+    wrap.appendChild(label);
+
+    var scoreEl = document.createElement("div");
+    scoreEl.className = "score";
+    scoreEl.textContent = score + " / " + QUESTIONS.length;
+    wrap.appendChild(scoreEl);
+
+    var msg = document.createElement("p");
+    msg.style.color = "var(--fg-dim)";
+    msg.style.margin = "0 0 18px";
+    if (score === QUESTIONS.length) msg.textContent = "Le cours est bien maîtrisé.";
+    else if (score >= QUESTIONS.length / 2) msg.textContent = "Pas mal, relis les points manqués dans le cours au-dessus.";
+    else msg.textContent = "Relis le cours ci-dessus avant de retenter le quiz.";
+    wrap.appendChild(msg);
+
+    var retryBtn = document.createElement("button");
+    retryBtn.type = "button";
+    retryBtn.className = "quiz-btn";
+    retryBtn.textContent = "Recommencer le quiz";
+    retryBtn.addEventListener("click", function () {
+      current = 0;
+      score = 0;
+      render();
+    });
+    wrap.appendChild(retryBtn);
+
+    box.appendChild(wrap);
+  }
+
+  render();
+})();
+</script>
